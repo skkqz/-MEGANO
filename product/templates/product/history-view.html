@@ -1,0 +1,74 @@
+{% extends 'product/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+    <div class="Middle Middle_top">
+    <div class="Middle-top">
+      <div class="wrap">
+        <div class="Middle-header">
+          <h1 class="Middle-title">История просмотра
+          </h1>
+          <ul class="breadcrumbs Middle-breadcrumbs">
+            <li class="breadcrumbs-item"><a href="{% url 'main-page' %}">home</a>
+            </li>
+            <li class="breadcrumbs-item breadcrumbs-item_current"><span>История просмотра</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="Section Section_column Section_columnLeft">
+      <div class="wrap">
+        <div class="Section-column">
+          <div class="Section-columnSection">
+            <header class="Section-header">
+              <strong class="Section-title">Навигация
+              </strong>
+            </header>
+            <div class="Section-columnContent">
+              <div class="NavigateProfile">
+                <ul class="menu menu_vt">
+                  <li class="menu-item"><a class="menu-link" href="{% url 'accaunt' %}">Личный кабинет</a>
+                  </li>
+                  <li class="menu-item"><a class="menu-link" href="{% url 'accaunt_edit' %}">Профиль</a>
+                  </li>
+                  <li class="menu-item"><a class="menu-link" href="{% url 'history' %}">История заказов</a>
+                  </li>
+                  <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="{% url 'history_view' %}">История просмотра</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="Section-content">
+          <div class="Cards">
+               {% if history_list %}
+                   {% for history in history_list %}
+            <div class="Card"><a class="Card-picture" href="#"><img src="{{ MEDIA_URL }}{{ history.offer.product.images.first.image.url }}" alt="card.jpg"/></a>
+              <div class="Card-content">
+                      <strong class="Card-title"><a href="{% url 'offer-detail' pk=history.offer.product.id %}">{{ history.offer.product.name }}</a>
+                </strong>
+                <div class="Card-description">
+                  <div class="Card-cost"><span class="Card-price">{{ history.offer.price }}</span>
+                  </div>
+                  <div class="Card-category">{{ history.offer.product.category }}
+                  </div>
+                        <div class="Card-hover"><a class="Card-btn" href="#"><img src="{% static 'assets/img/icons/card/bookmark.svg'%}" alt="bookmark.svg"/></a><a class="Card-btn" href="#"><img src="{% static 'assets/img/icons/card/cart.svg' %}" alt="cart.svg"/></a><a class="Card-btn" href="#"><img src="{% static 'assets/img/icons/card/change.svg' %}" alt="change.svg"/></a>
+                  </div>
+                </div>
+              </div>
+              <div class="Card-sale">-60%
+              </div>
+            </div>
+                    {% endfor %}
+           {% else %}
+              <p>История просмотра отсутствует</p>
+          </div>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

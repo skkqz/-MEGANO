@@ -1,0 +1,134 @@
+{% extends 'product/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}<title>Megano - {% trans "Акции" %}</title> {% endblock %}
+
+{% block content %}
+    <div class="Middle Middle_top">
+      <div class="Middle-top">
+        <div class="wrap">
+          <div class="Middle-header">
+            <ul class="breadcrumbs Middle-breadcrumbs">
+              <li class="breadcrumbs-item">
+                <a href="index.html">{% trans "Главная" %}</a>
+              </li>
+              <li class="breadcrumbs-item breadcrumbs-item_current">
+                <span>{% trans "Информация об акции" %}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="Section">
+        <div class="wrap">
+          <div class="Product">
+            <div class="ProductCard">
+              <div class="ProductCard-look">
+                <div class="ProductCard-photo">
+                  <img src="/media/{{ promo.image }}" alt="bigGoods.png" />
+                </div>
+              </div>
+              <div class="ProductCard-desc">
+                <div class="ProductCard-header">
+                  <h2 class="ProductCard-title">
+                    {{ promo.name }}
+                  </h2>
+                  <div class="ProductCard-info">
+                    <div class="ProductCard-cost">
+                      <div class="ProductCard-price">
+                        <small>{% trans "Условия акции" %}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ProductCard-text">
+                  {{ promo.description }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="Section">
+        <div class="wrap">
+          <div class="Section-content">
+            <h2 class="ProductCard-title">{% trans "Товары, участвующие в акции" %}</h2>
+            <div class="Cards">
+              {% for item in page_obj %}
+                <div class="Card">
+                  <a class="Card-picture" href="{% url 'product-detail' item.id %}">
+                    <img src="/media/{{ item.images.first.image }}" alt="card.jpg"/>
+                  </a>
+                  <div class="Card-content">
+                    <strong class="Card-title">
+                      <a href="{% url 'product-detail' item.id %}">
+                          {{ item.name|slice:":50" }}
+                      </a>
+                    </strong>
+                    <div class="Card-description">
+                      <div class="Card-cost">
+                        <span class="Card-price">${{ item.avg_price|floatformat:"2" }}</span>
+                      </div>
+                      <div class="Card-category">
+                          {{ item.category__name }}
+                      </div>
+                      <div class="Card-hover">
+{#                        <a class="Card-btn" href="#">#}
+{#                          <img src="{% static "assets/img/icons/card/bookmark.svg" %}" alt="bookmark.svg"/>#}
+{#                        </a>#}
+{#                        <a class="Card-btn" href="#">#}
+{#                          <img src="{% static "assets/img/icons/card/cart.svg" %}" alt="cart.svg"/>#}
+{#                        </a>#}
+                        {% include 'comparison/add.html' with type='product' id=item.id  %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% empty %}
+                {% trans "товары не найдены"|capfirst %}
+              {% endfor %}
+            </div>
+
+            {% block paginator %}
+              <div class="Pagination">
+                <div class="Pagination-ins">
+                  {% if page_obj.has_previous %}
+                      <a class="Pagination-element Pagination-element_prev"
+                         href="?page={{ page_obj.previous_page_number }}">
+                      <img src="{% static "assets/img/icons/prevPagination.svg" %}" alt="prevPagination.svg"/>
+                    </a>
+                      <a class="Pagination-element" href="?page={{ page_obj.previous_page_number }}">
+                      <span class="Pagination-text">{{ page_obj.previous_page_number }}</span>
+                    </a>
+                  {% else %}
+                    <a class="Pagination-element Pagination-element_prev" href="#">
+                      <img src="{% static "assets/img/icons/prevPagination.svg" %}" alt="prevPagination.svg"/>
+                    </a>
+                  {% endif %}
+
+                  <a class="Pagination-element Pagination-element_current" href="#">
+                      <span class="Pagination-text">{{ page_obj.number }}</span>
+                  </a>
+
+                  {% if page_obj.has_next %}
+                    <a class="Pagination-element" href="?page={{ page_obj.next_page_number }}">
+                      <span class="Pagination-text">{{ page_obj.next_page_number }}</span>
+                    </a>
+                    <a class="Pagination-element Pagination-element_prev" href="?page={{ page_obj.next_page_number }}">
+                      <img src="{% static "assets/img/icons/nextPagination.svg" %}" alt="nextPagination.svg"/>
+                    </a>
+                  {% else %}
+                    <a class="Pagination-element Pagination-element_prev" href="#">
+                      <img src="{% static "assets/img/icons/nextPagination.svg" %}" alt="nextPagination.svg"/>
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            {% endblock paginator %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

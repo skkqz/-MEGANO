@@ -1,0 +1,236 @@
+{% extends "product/base-template-1.html" %}
+{% load i18n %}
+{% load static %}
+{% load mptt_tags %}
+{% load products_custom_tags %}
+
+
+{% block content %}
+<div class="Middle Middle_top">
+
+  {% block content_header %}
+    <div class="Middle-top">
+      <div class="wrap">
+        <div class="Middle-header">
+          <h1 class="Middle-title">
+            {# insert your title #}
+            {% block content_title %}
+              {% trans "Каталог" %} Megano
+            {% endblock content_title %}
+          </h1>
+          <ul class="breadcrumbs Middle-breadcrumbs">
+            <li class="breadcrumbs-item">
+                <a href="#">{% trans "домой" %}</a>
+            </li>
+            <li class="breadcrumbs-item breadcrumbs-item_current">
+             <span>
+               {# insert your page name #}
+               {% block content_pagename %}
+                 {% trans "Каталог" %}
+               {% endblock content_pagename %}
+             <p>{{ form.input.price }}</p>
+             </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  {% endblock content_header %}
+
+  {# insert your content #}
+  {% block panel_section %}
+  <div class="Section Section_column Section_columnLeft">
+  {% endblock panel_section %}
+    <div class="wrap">
+
+    {#  insert you left panel  #}
+      {% block left_panel %}
+        <div class="Section-column">
+          <div class="Section-columnSection">
+            <header class="Section-header">
+              <strong class="Section-title">{% trans "Фильтр" %}
+              </strong>
+            </header>
+            <div class="Section-columnContent">
+              <form class="form"
+                    action="{% url 'catalog-view' %}"
+                    method="get">
+                <div class="form-group">
+                  <div class="range Section-columnRange">
+                      <input type="hidden" name="category" value="{{ current_category }}">
+                    <input class="range-line" id="price" name="price" type="text"
+                           data-type="double" data-min="50" data-max="500000" data-from="0" data-to="100000"/>
+                    <div class="range-price">{% trans "Цена:" %}&#32;
+                      <div class="rangePrice">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input class="form-input form-input_full" id="title" name="title"
+                         type="text" placeholder="Название"/>
+                </div>
+                <div class="form-group">
+                  <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
+                  <select class="form-select" name="seller">
+                    <option value="seller" selected="selected" disabled="disabled">{% trans "Продавец" %}
+                    </option>
+                    {% for seller in sellers %}
+                      <option value="{{ seller.name }}">{{ seller.name }}
+                      </option>
+                    {% empty %}
+                    {% endfor %}
+{#                    <option value="sdfsdf">sdfsdf#}
+{#                    </option>#}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="toggle">
+                    <input type="checkbox" name="stock"/><span class="toggle-box"></span>
+                      <span class="toggle-text">{% trans "Только товары в наличии" %}</span>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label class="toggle">
+                    <input type="checkbox" name="deliv"/><span class="toggle-box"></span>
+                      <span class="toggle-text">{% trans "С бесплатной доставкой" %}</span>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <br>
+                  <button class="buttons btn btn_square btn_dark btn_narrow"
+                          type="submit">
+                          {% trans "Применить фильтры" %}</button>
+{#                  <div class="buttons"><a class="btn btn_square btn_dark btn_narrow"#}
+{#                                          href="#" type="submit">Filter</a>#}
+{#                  </div>#}
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="Section-columnSection">
+            <header class="Section-header">
+              <strong class="Section-title">{% trans "Популярные теги" %}
+              </strong>
+            </header>
+            <div class="Section-columnContent">
+              <div class="buttons"><a class="btn btn_default btn_sm" href="#">Video</a>
+                  <a class="btn btn_default btn_sm" href="#">Development</a>
+                  <a class="btn btn_default btn_sm" href="#">Gaming</a>
+                  <a class="btn btn_default btn_sm" href="#">Asus</a>
+                  <a class="btn btn_default btn_sm" href="#">Development</a>
+                  <a class="btn btn_default btn_sm" href="#">Video</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endblock left_panel %}
+
+      {#  insert you right panel  #}
+      {% block right_panel %}
+        <div class="Section-content">
+
+          {#  insert your sort section #}
+          {% block sort %}
+          <div class="Sort">
+            <div class="Sort-title">{% trans "Сортировать по:" %}
+            </div>
+            <div class="Sort-variants"><a class="Sort-sortBy Sort-sortBy_dec" href="#">{% trans "Популярности" %}</a>
+                <a class="Sort-sortBy" href="#">{% trans "Цене" %}</a>
+                <a class="Sort-sortBy" href="#">{% trans "Отзывам" %}</a>
+                <a class="Sort-sortBy Sort-sortBy_inc" href="#">{% trans "Новизне" %}</a>
+            </div>
+          </div>
+          {% endblock sort %}
+
+          {#  insert your carts of products #}
+          <div class="Cards">
+            {% for item in catalog %}
+              <div class="Card">
+                <a class="Card-picture" href="#">
+                  <img src="/media/{{ item.images__image }}" alt="card.jpg"/>
+                </a>
+                <div class="Card-content">
+                  <strong class="Card-title">
+                    <a href="#">{{ item.name|slice:":50" }}</a>
+                  </strong>
+                  <div class="Card-description">
+                    <div class="Card-cost">
+{#                      <span class="Card-priceOld">₽115.00</span>#}
+                      <span class="Card-price">{{ item.avg_price|floatformat:2 }} ₽</span>
+                    </div>
+                    <div class="Card-category">
+                        Games / xbox
+                    </div>
+                    <div class="Card-hover">
+                      <a class="Card-btn" href="#">
+                        <img src="{% static "assets/img/icons/card/bookmark.svg" %}" alt="bookmark.svg"/>
+                      </a>
+                      <a class="Card-btn" href="#">
+                        <img src="{% static "assets/img/icons/card/cart.svg" %}" alt="cart.svg"/>
+                      </a>
+                      <a class="Card-btn" href="#">
+                        <img src="{% static "assets/img/icons/card/change.svg" %}" alt="change.svg"/>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                {# insert if product is in promorion  #}
+                {#<div class="Card-sale">-60%</div>#}
+              </div>
+            {% empty %}
+              {% trans "не найдено товаров в каталоге"|capfirst %}
+            {% endfor %}
+          </div>
+
+          {% block paginator %}
+              <div class="Pagination">
+                <div class="Pagination-ins">
+                  {% if page_obj.has_previous %}
+{#                      <a class="Pagination-element Pagination-element_prev"#}
+{#                         href="?page={{ page_obj.previous_page_number }}">#}
+                      <a class="Pagination-element Pagination-element_prev"
+                        href="?{% add_query_params request page=page_obj.previous_page_number %}">
+                      <img src="{% static "assets/img/icons/prevPagination.svg" %}" alt="prevPagination.svg"/>
+                    </a>
+{#                      <a class="Pagination-element" href="?page={{ page_obj.previous_page_number }}">#}
+                      <a class="Pagination-element"
+                         href="?{% add_query_params request page=page_obj.previous_page_number %}">
+                      <span class="Pagination-text">{{ page_obj.previous_page_number }}</span>
+                    </a>
+                  {% else %}
+                    <a class="Pagination-element Pagination-element_prev" href="#">
+                      <img src="{% static "assets/img/icons/prevPagination.svg" %}" alt="prevPagination.svg"/>
+                    </a>
+                  {% endif %}
+
+                  <a class="Pagination-element Pagination-element_current" href="#">
+                      <span class="Pagination-text">{{ page_obj.number }}</span>
+                  </a>
+
+                  {% if page_obj.has_next %}
+{#                    <a class="Pagination-element" href="?page={{ page_obj.next_page_number }}">#}
+                    <a class="Pagination-element"
+                       href="?{% add_query_params request page=page_obj.next_page_number %}">
+                      <span class="Pagination-text">{{ page_obj.next_page_number }}</span>
+                    </a>
+                    <a class="Pagination-element Pagination-element_prev"
+                       href="?{% add_query_params request page=page_obj.next_page_number %}">
+                      <img src="{% static "assets/img/icons/nextPagination.svg" %}" alt="nextPagination.svg"/>
+                    </a>
+                  {% else %}
+                    <a class="Pagination-element Pagination-element_prev" href="#">
+                      <img src="{% static "assets/img/icons/nextPagination.svg" %}" alt="nextPagination.svg"/>
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+          {% endblock paginator %}
+
+        </div>
+      {% endblock right_panel %}
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

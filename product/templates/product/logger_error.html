@@ -1,0 +1,19 @@
+{% extends 'product/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load mptt_tags %}
+
+{% block title %}{% trans "Ошибки импорта файла" %}{% endblock %}
+
+{% block content %}
+{% if logger_error %}
+    {% for error in logger_error %}
+        <p>{% trans "Ошибки" %}:</p>
+        {{ i }}
+        <p>{{ error.file_name }}: {{ error.message }}</p>
+    {% endfor %}
+{% endif %}
+    <a href="/product/catalog/">{% trans "Назад" %}</a>
+    <h1></h1>
+    <h1></h1>
+{% endblock content %}

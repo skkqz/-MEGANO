@@ -1,0 +1,61 @@
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    {% block page_title %}Megano{% endblock page_title %}
+  </title>
+  <link href="{% static "favicon.ico" %}" rel="shortcut icon">
+
+  {% block fonts %}
+    <link rel="preload" href="{% static "assets/fonts/Roboto/Roboto-Regular.woff" %}" as="font">
+    <link rel="preload" href="{% static "assets/fonts/Roboto/Roboto-Italic.woff" %}" as="font">
+    <link rel="preload" href="{% static "assets/fonts/Roboto/Roboto-Bold.woff" %}" as="font">
+    <link rel="preload" href="{% static "assets/fonts/Roboto/Roboto-Bold_Italic.woff" %}" as="font">
+    <link rel="preload" href="{% static "assets/fonts/Roboto/Roboto-Light.woff" %}" as="font">
+    <link rel="preload" href="{% static "assets/fonts/Roboto/Roboto-Light_Italic.woff" %}" as="font">
+  {% endblock fonts %}
+
+  {% block css %}
+    <link rel="stylesheet" href="{% static 'assets/css/fonts.css?' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/basic.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/extra.css' %}">
+  {% endblock css %}
+
+  {% block script %}
+    <script src="{% static "assets/plg/CountDown/countdown.js" %}"></script>
+  {% endblock script %} 
+</head>
+
+<body class="Site">
+  {# insert header file #}
+  {% include "product/header.html" %}
+
+  {% block content %}
+    {# insert your content #}
+
+      {% block content_header %}
+        {# insert your content header #}
+      {% endblock content_header %}
+
+  {% endblock content %}
+
+  {# insert footer file #}
+  {% include "product/footer.html" %}
+
+  {% block body_script %}
+    <script src="{% static "assets/plg/jQuery/jquery-3.5.0.slim.min.js" %}"></script>
+    <script src="{% static "assets/plg/form/jquery.form.js" %}"></script>
+    <script src="{% static "assets/plg/form/jquery.maskedinput.min.js" %}"></script>
+    <script src="{% static "assets/plg/range/ion.rangeSlider.min.js" %}"></script>
+    <script src="{% static "assets/plg/Slider/slick.min.js" %}"></script>
+    <script src="{% static "assets/js/scripts.js" %}"></script>
+  {% endblock body_script %}
+</body>
+</html>

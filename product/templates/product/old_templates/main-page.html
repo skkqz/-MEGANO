@@ -1,0 +1,43 @@
+{% extends 'product/base-template-1.html' %}
+{% load i18n %}
+
+{% block content %}
+
+  <!-- insert slider of banners -->
+  {% include "product/banner-slider.html" %}
+
+  <div class="Middle">
+
+    <!-- insert row of banners -->
+    {% include "product/banner-row.html" %}
+
+    <div class="Section Section_column Section_columnLeft Section_columnDesktop">
+      <div class="wrap">
+
+        <!-- insert limited deals -->
+        {% include "product/limited-deals.html" %}
+
+        <!-- insert popular products -->
+        {% include "product/popular-products.html" %}
+
+      </div>
+    </div>
+
+    <!-- insert hot offers -->
+    {% include "product/hot-offers.html" %}
+
+    <div class="Section Section_column Section_columnRight">
+      <div class="wrap">
+
+        <!-- insert advantages block -->
+        {% include "product/advantages-block.html" %}
+
+        <!-- insert limited edition -->
+        {% include "product/limited-edition.html" %}
+
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}

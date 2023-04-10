@@ -1,0 +1,42 @@
+{% load static %}
+{% load i18n %}
+
+<!-- start of middle header block -->
+    <div class="wrap">
+      <div class="row Header-rowMain">
+        <!-- logo -->
+        <div class="row-block Header-logo"><a class="logo" href="index.html">
+            <img class="logo-image" src="{% static "assets/img/logo.png" %}" alt="logo.png"/></a>
+        </div>
+
+
+        <!-- main menu -->
+        {% include "product/main-menu.html" %}
+
+          
+        <!-- personal cart -->
+        <div class="row-block">
+          <div class="CartBlock">
+            <a class="CartBlock-block" href="compare.html">
+              <img class="CartBlock-img" src="{% static "assets/img/icons/exchange.svg" %}" alt="exchange.svg"/>
+                <span class="CartBlock-amount">4</span>
+            </a>
+            <a class="CartBlock-block" href="cart.html">
+              <img class="CartBlock-img" src="{% static "assets/img/icons/cart.svg" %}" alt="cart.svg"/>
+                <span class="CartBlock-amount">0</span>
+            </a>
+            <div class="CartBlock-block"><span class="CartBlock-price">0.00$</span>
+            </div>
+          </div>
+        </div>
+        <!-- navigation when page to be scaled -->
+        <div class="row-block Header-trigger"><a class="menuTrigger" href="#navigate">
+            <div class="menuTrigger-content">{% trans "Показать навигацию" %}
+            </div><span></span><span></span><span></span></a>
+        </div>
+      </div>
+    </div>
+    <!-- end of middle header block -->
+
+
+

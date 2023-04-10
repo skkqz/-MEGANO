@@ -1,0 +1,106 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    depends_on:
+      - db
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8181
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    restart: always
+    networks:
+      - web_net
+    volumes:
+      - .:/code/
+      - static_volume:/code/staticfiles
+      - media_volume:/code/mediafiles
+    expose:
+      - 8181
+    container_name: skillbox-team-web
+
+#  celery:
+#    restart: always
+#    build:
+#      context: .
+#    command: celery -A config worker -l INFO
+#    volumes:
+#      - .:/code/
+#    networks:
+#      - web_net
+#    depends_on:
+#      - redis
+#      - db
+#      - web
+#    environment:
+#      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+#    container_name: skillbox-team-celery
+#
+#  celery-beat:
+#    restart: always
+#    build:
+#      context: .
+#    command: celery -A config beat -l info
+#    volumes:
+#      - .:/code/
+#    networks:
+#      - web_net
+#    depends_on:
+#      - redis
+#    container_name: skillbox-team-celery-beat
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+      POSTGRES_DB: $POSTGRES_DB
+    restart: always
+    networks:
+      - web_net
+    ports:
+      - $POSTGRES_PORT:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    container_name: skillbox-team-postgres_db
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+
+  redis:
+    image: redis:alpine
+    networks:
+      - web_net
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+    container_name: skillbox-team-redis-db
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/code/staticfiles
+      - media_volume:/code/mediafiles
+    ports:
+      - 8181:80
+    depends_on:
+      - web
+    networks:
+      - web_net
+    container_name: skillbox-team-nginx-db
+
+volumes:
+  postgres_data:
+  redis_data:
+  static_volume:
+  media_volume:
+
+networks:
+  web_net:
+    name: web_net
+    driver: bridge

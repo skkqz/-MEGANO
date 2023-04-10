@@ -1,0 +1,48 @@
+{% extends 'product/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block header_row_main %}{% endblock %}
+{% block title %} <title>{% trans "Регистрация" %}</title>{% endblock %}
+{% block content %}
+
+<div class="wrap" xmlns="http://www.w3.org/1999/html">
+            <div class="row Header-rowMain">
+                <div class="row-block Header-logo"><a class="logo" href="index.html"><img class="logo-image" src="{% static "assets/img/logo.png" %}" alt="logo.png" /></a>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div class="header">
+                    <h3 class="sign-in">{% trans "Регистрация" %}</h3>
+                </div>
+                <div class="clear"></div>
+                <form  method="post" enctype="multipart/form-data">{% csrf_token %}
+                        {% for field in form %}
+                {{ field.label_tag }}{{ field }}
+                            {% if field.errors %}
+                            {% for error in field.errors %}
+                                <span class="form-error">{{ error }}<p></p></span>
+                                {% endfor %}
+{#                    <label class="form-label" for="{{ form.email.id_for_email }}"> E-mail</label>#}
+{#                    {{ form.email }}{{ error }}#}
+{#                    <label class="form-label" for="{{ form.phone.id_for_phone }}"> Номер телефона</label>#}
+{#                    {{ form.phone }}{{ error }}#}
+{#                    <label class="form-label" for="{{ form.password1.id_for_password1 }}">Пароль </label>#}
+{#                    {{ form.password1 }}{{ error }}#}
+{#                    <label class="form-label" for="{{ form.password2.id_for_password2 }}">Подтверждение пароля </label>#}
+{#                    {{ form.password2 }}{{ error }}#}
+                            {% endif %}
+                                {% endfor %}
+                    <input  type="submit" value="Зарегистрироваться">
+                    <a class="registr" href="{% url 'login' %}">
+                        Вход
+                    </a>
+                    <div class="clear"></div>
+                     {% for error in form.error %}
+
+                        {% endfor %}
+                </form>
+            </div>
+
+        </div>
+
+{% endblock %}

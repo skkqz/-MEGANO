@@ -1,0 +1,84 @@
+{%  extends 'product/base.html' %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+
+
+<div class="Middle Middle_top">
+    <div class="Middle-top">
+      <div class="wrap">
+        <div class="Middle-header">
+          <h1 class="Middle-title">{% trans "Корзина" %}
+          </h1>
+          <ul class="breadcrumbs Middle-breadcrumbs">
+            <li class="breadcrumbs-item"><a href="index.html">{% trans "домой" %}</a>
+            </li>
+            <li class="breadcrumbs-item breadcrumbs-item_current"><span>{% trans "Корзина" %}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="Section">
+        {% for item in cart %}
+    {% with product=item.product.product %}
+      <div class="wrap">
+        <form class="form Cart" action="#" method="post">
+          <div class="Cart-product">
+            <div class="Cart-block Cart-block_row">
+              <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img" src="{% static 'assets/img/content/home/card.jpg'%}" alt="card.jpg"/></a>
+              </div>
+              <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#">{{ product.name }}</a>
+                <div class="Cart-desc">{{ item.name }}
+                </div>
+              </div>
+              <div class="Cart-block Cart-block_price">
+                <div class="Cart-price">{{ item.price }}
+                </div>
+              </div>
+            </div>
+            <div class="Cart-block Cart-block_row">
+              <div class="Cart-block Cart-block_seller">
+                <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
+
+              </div>
+              <div class="Cart-block Cart-block_amount" >
+                <div class="Cart-amount">
+                  <div class="Cart-block_amount" >
+                    <button class="Cart-btn custom_button "  formaction="{% url 'cart:remove-quantity' id=item.product.id %}" type="submit">{% csrf_token %}-
+                    </button>
+                 {{ item.quantity }}
+{#                      <input class="Amount-input form-input" name="amount" type="number" value="1"/>#}
+
+{#                      {%  include 'cart/add_quantity.html' with id=product.id %}#}
+
+                    <button class="Cart-btn  custom_button" formaction="{% url 'cart:add-quantity' id=item.product.id %}" type="submit">{% csrf_token %}+
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="Cart-block Cart-block_delete"><button class="Cart-delete" formaction="{% url 'cart:cart-remove' id=item.product.id %}"  type="submit" > {% csrf_token %}<img src="{% static 'assets/img/icons/card/delete.svg'%}"  alt="delete.svg"/></button>
+
+{#                  <a class="Cart-delete" href=""><img src="{% static 'img/icons/card/delete.svg'%}"  alt="delete.svg"/></a>#}
+              </div>
+            </div>
+          </div>
+{% endwith %}
+{% endfor %}
+          <div class="Cart-total">
+            <div class="Cart-block Cart-block_total">
+              <strong class="Cart-title">{% trans "Итого:" %}
+              </strong><span class="Cart-price">{{ cart.get_total_price }}</span>
+              <strong class="Cart-title">{% trans "Скидка:" %}
+              </strong><span class="Cart-price">{{ cart.total_discount }}</span>
+              <strong class="Cart-title">{% trans "К оплате:" %}
+              </strong><span class="Cart-price">{{ cart.due }}</span>
+            </div>
+            <div class="Cart-block"><a class="btn btn_success btn_lg" href="{% url 'order_create' %}">{% trans "Оформить заказ" %}</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

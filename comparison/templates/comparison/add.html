@@ -1,0 +1,7 @@
+{% load static %}
+<form action="{% url 'comparison:comparison-add' id=id %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="type" value="{{ type }}">
+    <input type="hidden" name="url_from" value="{{ request.path }}">
+    <button  class="btn btn_default"  type="submit"><img class="btn-icon" src="{% static "assets/img/icons/card/change.svg" %}" alt="change.svg"/></button>
+</form>

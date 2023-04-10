@@ -1,0 +1,15 @@
+{% load i18n %}
+<h1>{% trans "Случайные баннеры" %}</h1>
+
+<ul>
+{% if banners|length %}
+    {% for banner in banners %}
+        <li><p>{{ banner.title }}</p>
+            <p>{{ banner.brief }}</p>
+            <p>{{ banner.icon }}</p>
+        </li>
+    {% endfor %}
+{% else %}
+    <li>{% trans "Извините, активных баннеров нет." %}</li>
+{% endif %}
+</ul>

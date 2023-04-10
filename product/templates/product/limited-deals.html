@@ -1,0 +1,72 @@
+{% load i18n %}
+{% load static %}
+
+
+<div class="Section-column">
+  <div class="Section-columnSection Section-columnSection_mark">
+    <header class="Section-columnHeader">
+      <strong class="Section-columnTitle">
+          {% trans "Ограниченные предложения" %}
+      </strong>
+    </header>
+    <div class="Card">
+      {% if day_offer %}
+        <a class="Card-picture" href="{% url 'product-detail' day_offer.id %}">
+          <img src="/media/{{ day_offer.images__image }}" alt="card.jpg"/>
+        </a>
+        <div class="Card-content">
+          <strong class="Card-title">
+            <a href="{% url 'product-detail' day_offer.id %}">
+              {{ day_offer.name|slice:":40" }}
+            </a>
+          </strong>
+          <div class="Card-description">
+            <div class="Card-cost">
+{#              <span class="Card-priceOld">$115.00</span>#}
+              <span class="Card-price">{{ day_offer.avg_price|floatformat:2 }} ₽</span>
+            </div>
+            <div class="Card-category">
+              {{ day_offer.category__name }}
+            </div>
+          </div>
+        <div class="CountDown" data-date="{{ next_day }} 00:00">
+{#          <div class="CountDown-block">#}
+{#            <div class="CountDown-wrap">#}
+{#              <div class="CountDown-days"></div>#}
+{#              <span class="CountDown-label">#}
+{#                days#}
+{#              </span>#}
+{#            </div>#}
+{#          </div>#}
+          <div class="CountDown-block">
+            <div class="CountDown-wrap">
+              <div class="CountDown-hours"></div>
+              <span class="CountDown-label">
+                hours
+              </span>
+            </div>
+          </div>
+          <div class="CountDown-block">
+            <div class="CountDown-wrap">
+              <div class="CountDown-minutes"></div>
+              <span class="CountDown-label">
+                mins
+              </span>
+            </div>
+          </div>
+          <div class="CountDown-block">
+            <div class="CountDown-wrap">
+              <div class="CountDown-secs"></div>
+              <span class="CountDown-label">
+                secs
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% else %}
+        {% trans "Не найдено товаров в категории предложение дня" %}
+      {% endif %}
+    </div>
+  </div>
+</div>

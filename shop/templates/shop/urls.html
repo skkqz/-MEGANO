@@ -1,0 +1,10 @@
+{% extends 'product/base.html' %}
+{% block title %} <title>URLS проекта</title>{% endblock %}
+{% block header_row_main %}{% endblock %}
+
+{% block content %}
+{#    {{ data }}#}
+{% for url in data %}
+    <p>{{ url }}</p>
+    {% endfor %}
+{% endblock %}

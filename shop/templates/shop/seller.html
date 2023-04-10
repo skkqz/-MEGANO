@@ -1,0 +1,88 @@
+{% extends 'product/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+      <div class="Middle Middle_top">
+        <div class="Middle-top">
+          <div class="wrap">
+            <div class="Middle-header">
+              <h1 class="Middle-title">{{ seller.name }}
+              </h1>
+              <ul class="breadcrumbs Middle-breadcrumbs">
+                <li class="breadcrumbs-item"><a href="{% url 'main-page' %}">{% trans "домой" %}</a>
+                </li>
+                <li class="breadcrumbs-item breadcrumbs-item_current"><span>{% trans "о нас" %}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="Section Section_column Section_columnLeft Section_columnWide">
+          <div class="wrap">
+            <div class="Section-column">
+              <div class="Section-columnSection Section-columnSection_mark">
+                <div class="media media_middle">
+                  <div class="media-image"><img src="{% static 'assets/img/icons/contacts/phone.svg' %}" alt="phone.svg"/>
+                  </div>
+                  <div class="media-content">{% trans "Телефон" %}:&#32;
+                    <nobr>{{ seller.number }}</nobr>
+                  </div>
+                </div>
+              </div>
+              <div class="Section-columnSection Section-columnSection_mark">
+                <div class="media media_middle">
+                  <div class="media-image"><img src="{% static 'assets/img/icons/contacts/address.svg' %}" alt="address.svg"/>
+                  </div>
+                  <div class="media-content">{% trans "Адрес" %}: {{ seller.user.email }}
+                  </div>
+                </div>
+              </div>
+              <div class="Section-columnSection Section-columnSection_mark">
+                <div class="media media_middle">
+                  <div class="media-image"><img src="{% static 'assets/img/icons/contacts/mail.svg' %}" alt="mail.svg"/>
+                  </div>
+                  <div class="media-content">{% trans "Почта" %}: {{ seller.address }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="Section-content">
+              <div class="row row_verticalCenter row_maxHalf">
+                <div class="row-block">
+                  <div class="pict">{% trans "Логотип" %}: <img src="../../../media/{{ seller.logo.image }}" alt={% trans "Изображение продавца" %}>
+                  </div>
+                </div>
+                <div class="row-block">
+                  <p>{{ seller.description }}
+                  </p>
+                </div>
+              </div>
+              <header class="Section-header">
+                <h2 class="Section-title">{% trans "Популярные товары" %}
+                </h2>
+              </header>
+              <div class="Cards">
+              {% for offer in popular %}
+                <div class="Card"><a class="Card-picture" href="{% url 'offer-detail' offer.id %}"><img src="../../../media/{{ offer.product.images.first.image }}" alt="card.jpg"/></a>
+                  <div class="Card-content">
+                    <strong class="Card-title"><a href="#">{{ offer.product.description }}</a>
+                    </strong>
+                    <div class="Card-description">
+                      <div class="Card-cost"><span class="Card-price">${{ offer.price }}</span>
+                      </div>
+                      <div class="Card-category">{{ offer.product.category }}
+                      </div>
+                      <div class="Card-hover">{% include 'comparison/add.html' with type='product' id=offer.product.id  %}</div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+{% endblock %}

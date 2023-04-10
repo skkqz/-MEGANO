@@ -1,0 +1,37 @@
+{% extends "product/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block title %} <title>{% trans "Вход" %}</title>{% endblock %}
+{% block header_row_main %}{% endblock %}
+
+{% block content %}
+    <div class="wrap">
+            <div class="row Header-rowMain">
+                <div class="row-block Header-logo"><a class="logo" href="index.html"><img class="logo-image" src="{% static "assets/img/logo.png" %}" alt="logo.png" /></a>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div class="header">
+                    <h3 class="sign-in">{% trans "Вход" %}</h3>
+                </div>
+                <div class="clear"></div>
+                <form method="post">{% csrf_token %}
+                    <div>
+                        <label class="form-label" for="{{ form.username.id_for_username }}">{% trans "Почта" %}</label>
+                        {{ form.username }}
+                    </div>
+                    <div>
+                        <label class="form-label" for="{{ form.password.id_for_password }}">{% trans "Пароль" %}</label>
+                        {{ form.password }}
+                    </div>
+                    <div>
+                        <input type="submit" value="Войти" />
+                    </div>
+                    <a class="forgot-label" href="{% url 'password-reset' %}">{% trans "Забыли пароль?" %}</a>
+                    <a class="registr" href="{% url 'signup' %}">
+                        {% trans "Регистрация" %}
+                    </a>
+                </form>
+            </div>
+        </div>
+{% endblock %}

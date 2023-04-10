@@ -1,0 +1,18 @@
+{
+  "category": {
+    "Электроника": [
+      {
+        "name": "MacBook1",
+        "description": "Очень шустрый и классный pc",
+        "property": {"name": "Характеристики_1", "value": "Ого-го"},
+        "image": [
+          "https://downloader.disk.yandex.ru/preview/b1a57c67058958069dcc70a5aefe786701f41a4ab4fa9858c292627129456698/640f9cd7/EImY2npoarJwyF1OaHNejemFdAHex9N-h3WM0vnKU_TTXfy7YgXEkVf9Ww2mj_J0PnQ4N5eS0Ol3to7mjBvbpQ%3D%3D?uid=0&filename=101212.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2&size=1920x865",
+          "https://downloader.disk.yandex.ru/preview/6f7ca7d70ba08c964209f18cda8d7f5c0b2c0587b6f6aabd06e5781564bd7e4b/640f9cd7/N9YcdkUv-LX7bMywcNoEFemFdAHex9N-h3WM0vnKU_RwrP20VuOXR8bmpDCZSaInJ07Uocsd8fkwSVujakHI6w%3D%3D?uid=0&filename=1234444.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2&size=1920x865"
+        ],
+        "offer": {
+          "price": 84000
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{% load static %}
+{#    {% for item in request.session.comparison %}#}
+{#        {% if item.id == id|stringformat:'i' or item.type == type %}#}
+            <form action="{% url 'comparison:comparison-remove' id=id %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="type" value="{{ type }}">
+                <input type="hidden" name="url_from" value="{{ request.path }}">
+                <button class="Compare-btn" type="submit"><img src="{% static 'assets/img/icons/card/delete.svg' %}" alt="delete.svg"/></button>
+            </form>
+{#{% endif %}#}
+{#{% endfor %}#}

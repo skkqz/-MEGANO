@@ -1,0 +1,102 @@
+{% extends 'product/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}<title>Megano - {% trans "Акции" %}</title> {% endblock %}
+
+{% block content %}
+    <div class="Middle Middle_top">
+        <div class="Middle-top">
+            <div class="wrap">
+                <div class="Middle-header">
+
+                    <ul class="breadcrumbs Middle-breadcrumbs">
+                        <li class="breadcrumbs-item"><a href="index.html">{% trans "Главная" %}</a>
+                        </li>
+                        <li class="breadcrumbs-item breadcrumbs-item_current"><span>{% trans "Акции и скидки" %}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="Section">
+          <div class="wrap">
+            <div class="Cards Cards_blog">
+
+              {% for promo in promotions %}
+                <div class="Card">
+                  <a class="Card-picture" href="{% url 'promotions:promo-detail' promo.id %}">
+                    <img src="/media/{{ promo.image }}" alt="product.png" />
+                  </a>
+
+                  {% if promo.started %}
+                    <div class="Card-date">
+                      <strong class="Card-date-number">{{ promo.started|date:"d" }}</strong>
+                      <span class="Card-date-month">{{ promo.started|date:"M" }}</span>
+                    </div>
+
+                    <div class="Card-date Card-date_to">
+                      <strong class="Card-date-number">{{ promo.finished|date:"d" }}</strong>
+                      <span class="Card-date-month">{{ promo.finished|date:"M" }}</span>
+                    </div>
+                  {% else %}
+                    <div class="Card-date">
+                      <strong class="Card-date-number">{{ promo.finished|date:"d" }}</strong>
+                      <span class="Card-date-month">{{ promo.finished|date:"M" }}</span>
+                    </div>
+                  {% endif %}
+
+                  <div class="Card-content">
+                    <strong class="Card-title">
+                      <a href="{% url 'promotions:promo-detail' promo.id %}">{{ promo.name }}</a>
+                    </strong>
+                    <div class="Card-description">{{ promo.description|slice:":128" }}</div>
+                  </div>
+                </div>
+              {% empty %}
+                {% trans "На данный момент нет действующих акций" %}
+              {% endfor %}
+            </div>
+
+          </div>
+        </div>
+    </div>
+
+    {% block paginator %}
+      <div class="Pagination">
+        <div class="Pagination-ins">
+          {% if page_obj.has_previous %}
+            <a class="Pagination-element Pagination-element_prev"
+               href="?page={{ page_obj.previous_page_number }}">
+              <img src="{% static "assets/img/icons/prevPagination.svg" %}" alt="prevPagination.svg"/>
+            </a>
+            <a class="Pagination-element" href="?page={{ page_obj.previous_page_number }}">
+              <span class="Pagination-text">{{ page_obj.previous_page_number }}</span>
+            </a>
+          {% else %}
+            <a class="Pagination-element Pagination-element_prev" href="#">
+              <img src="{% static "assets/img/icons/prevPagination.svg" %}" alt="prevPagination.svg"/>
+            </a>
+          {% endif %}
+
+          <a class="Pagination-element Pagination-element_current" href="#">
+            <span class="Pagination-text">{{ page_obj.number }}</span>
+          </a>
+
+          {% if page_obj.has_next %}
+            <a class="Pagination-element" href="?page={{ page_obj.next_page_number }}">
+              <span class="Pagination-text">{{ page_obj.next_page_number }}</span>
+            </a>
+            <a class="Pagination-element Pagination-element_prev" href="?page={{ page_obj.next_page_number }}">
+              <img src="{% static "assets/img/icons/nextPagination.svg" %}" alt="nextPagination.svg"/>
+            </a>
+          {% else %}
+            <a class="Pagination-element Pagination-element_prev" href="#">
+              <img src="{% static "assets/img/icons/nextPagination.svg" %}" alt="nextPagination.svg"/>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% endblock paginator %}
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'product/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    {% if catalog %}
+        {% for item in catalog %}
+            <br>
+            <figure>
+                <p><img src="/media/{{ item.images.first.image }}" width=200 alt="logo"></p>
+                <figcapture>
+                    <a href="#">{{ item.name }}</a>
+                    <p>{{ item.description|slice:":50" }}</p>
+                </figcapture>
+            </figure>
+        {% endfor %}
+    {% else %}
+        {% trans "не найдено товаров в каталоге"|capfirst %}
+    {% endif %}
+
+    <br><br>
+    <div class="pagination">
+
+        <span class="current">
+            {% blocktrans with page="страница"|capfirst number=page_obj.number num_pages=page_obj.paginator.num_pages %}
+            {{ page }} {{ number }} из {{ num_pages }}
+            {% endblocktrans %}
+        </span>
+        <p></p>
+
+        <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo;
+            {% trans "первая"|capfirst %}</a>
+            <a href="?page={{ page_obj.previous_page_number }}">
+                {% trans "предыдущая"|capfirst %}
+            </a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">
+                {% trans "следующая"|capfirst %}
+            </a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">
+                {% trans "последняя"|capfirst %} &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}

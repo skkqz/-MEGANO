@@ -1,0 +1,149 @@
+{% extends 'product/base.html' %}
+{% load i18n %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="Middle Middle_top">
+        <div class="Section Section_column Section_columnRight Section_columnWide Order">
+            <div class="wrap">
+                <div class="Section-column">
+                    <div class="Section-columnSection">
+                        <header class="Section-header">
+                            <strong class="Section-title">{% trans "Прогресс заполнения" %}
+                            </strong>
+                        </header>
+                        <div class="Section-columnContent">
+                            <div class="NavigateProfile">
+                                <ul class="menu menu_vt">
+                                    <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="#step1">{% trans "Шаг 1. Параметры пользователя" %}</a>
+                                    </li>
+                                    <li class="menu-item">{% trans "Шаг 2. Способ доставки" %}
+                                    </li>
+                                    <li class="menu-item">{% trans "Шаг 3. Способ оплаты" %}
+                                    </li>
+                                    <li class="menu-item">{% trans "Шаг 4. Подтверждение заказа" %}
+                                    </li>
+                                    <li class="menu-item">{% trans "Шаг 5. Оплата" %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            <div class="Section-column">
+                <div class="Section-columnSection">
+                    <header class="Section-header">
+                        <strong class="Section-title">{% trans "Шаг 1. Параметры пользователя" %}
+                        </strong>
+                    </header>
+                    <div class="Section-columnContent">
+                        <div class="NavigateProfile">
+{#                            <div class="order-info">#}
+{#                                <h3>Your order</h3>#}
+{#                                <ul>#}
+{#                                    {% for item in cart %}#}
+{#                                        <li>#}
+{#                                            {{ item.quantity }}x {{ item.product.name }}#}
+{#                                            <span>${{ item.total_price }}</span>#}
+{#                                        </li>#}
+{#                                    {% endfor %}#}
+{#                                </ul>#}
+{#                                <p>Total: ${{ cart.get_total_price }}</p>#}
+{#                            </div>#}
+                            <div class="row">
+                                <div class="row-block">
+                                    <div class="form-group">
+                                        <form action="." method="post" class="order-form">
+                                                {% for field in form %}
+                                                {% if user.is_authenticated and field.name == "password1" or user.is_authenticated and field.name == "password2" %}
+                                                    {{ form.field.as_hidden }}
+                                                {% else %}
+                                                    {% if field.errors %}
+                                                        {{ field.errors }}
+                                                    {% else %}
+                                                        <br>
+                                                    {% endif %}
+                                                    <label class="form-label" for="{{ field.name }}">{{field.label_tag}}
+                                                    </label>
+                                                    <div class="form-input" style="width: 270pt" id="{{ field.name }}" type="text">{{field}}</div>
+                                                    {% if field.name == "email" %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row-block">
+                                                        <div class="form-group">
+                                                    {% endif %}
+                                                {% endif %}
+                                                {% endfor %}
+{#                                            <div class="form-group"><a class="btn btn_muted Order-btnReg" href="{%  url "cart:cart" %}">Я уже зарегистрирован</a>#}
+{#                                            </div>#}
+                                            <br>
+                                            <p><input type="submit" value="Подтвердить"></p>
+                                            {% csrf_token %}
+                                            </form>
+                                            {% if not request.user.is_authenticated %}
+                                                <p><input type="submit" data-toggle="modal" data-target="#myModal" value="Авторизироваться" /></p>
+                                                    <div id="myModal" class="modal fade" style="background-color: rgba(120, 120, 120, 0.5)">
+                                                            <div class="wrapper" style="background-color: #f0f0f0; padding: 25px">
+                                                                <div class="header">
+                                                                    <h3 class="sign-in">Вход</h3>
+                                                                </div>
+                                                                <div class="clear"></div>
+                                                                <form method="post">{% csrf_token %}
+                                                                    <div>
+                                                                        <label class="form-label" for="{{ form.username.id_for_username }}">Е-mail</label>
+                                                                        <input type="text" name="email" class="form-control" required>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label class="form-label" for="{{ form.password.id_for_password }}">Пароль</label>
+                                                                        <input type="password" name="password" class="form-control" checked required>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input type="submit" value="Войти" />
+                                                                        {% csrf_token %}
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        <div class="modal" tabindex="-1">
+                                                    </div>
+                                                    </div>
+                                            {% endif %}
+{#                                                <div id="myModal" class="modal fade" style="background-color: rgba(120, 120, 120, 0.5)">#}
+{#                                                    <div class="modal-dialog">#}
+{#                                                        <div class="modal-content">#}
+{#                                                            <div class="modal-header">#}
+{#                                                                <button class="close" data-dismiss="modal">x</button>#}
+{#                                                                <h4 class="modal-title">Заголовок окна</h4>#}
+{#                                                            </div>#}
+{#                                                            <div class="modal-body">Текст</div>#}
+{#                                                            <div class="modal-footer">#}
+{#                                                                <button class="btn btn-danger" data-dismiss="modal">Закрыть</button>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{#<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>#}
+{#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"#}
+{#integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg320mUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">#}
+
+{#<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"#}
+{#integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">#}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+crossorigin="anonymous"></script>
+{% endblock %}

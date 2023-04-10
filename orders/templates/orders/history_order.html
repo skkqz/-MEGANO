@@ -1,0 +1,128 @@
+{% extends 'product/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+    <br>
+    <div class="Middle Middle_top">
+        <div class="Section Section_column Section_columnLeft">
+            <div class="wrap">
+                <div class="Section-column">
+                    <div class="Section-columnSection">
+                        <header class="Section-header">
+                            <strong class="Section-title">{% trans "Навигация" %}
+                            </strong>
+                        </header>
+                        <div class="Section-columnContent">
+                            <div class="NavigateProfile">
+                                <ul class="menu menu_vt">
+                                    <li class="menu-item"><a class="menu-link" href="{% url 'accaunt' %}">{% trans "Личный кабинет" %}</a>
+                                    </li>
+                                    <li class="menu-item"><a class="menu-link" href="{% url 'accaunt_edit' %}">{% trans "Профиль" %}</a>
+                                    </li>
+                                    <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="{% url 'history' %}">{% trans "История заказов" %}</a>
+                                    </li>
+                                    <li class="menu-item"><a class="menu-link" href="{% url 'history_view' %}">История просмотра</a>
+                  </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Section-content">
+                    <div class="Orders">
+                                 {% if orders %}
+                        {% for order in orders %}
+                            <div class="Order Order_anons">
+                                <div class="Order-personal">
+                                    <div class="row">
+                                        <div class="row-block"><a class="Order-title" href="{% url 'history-detail' pk=order.id %}">Заказ&#32;<span class="Order-numberOrder">№{{ order.id }}</span>&#32;от&#32;<span class="Order-dateOrder">{{ order.created|date:'j E Y' }}</span></a>
+                                        </div>
+                                        <div class="row-block">
+                                            <div class="Order-info Order-info_delivery">
+                                                <div class="Order-infoType">{% trans "Пользователь:" %}
+                                                </div>
+                                                <div class="Order-infoContent">{{ order.email }}
+                                                </div>
+                                            </div>
+                                            <div class="Order-info Order-info_delivery">
+                                                <div class="Order-infoType">{% trans "Город:" %}
+                                                </div>
+                                                <div class="Order-infoContent">{{ order.city }}
+                                                </div>
+                                            </div>
+                                            <div class="Order-info Order-info_delivery">
+                                                <div class="Order-infoType">{% trans "Адрес:" %}
+                                                </div>
+                                                <div class="Order-infoContent">{{ order.address }}
+                                                </div>
+                                            </div>
+                                            <div class="Order-info Order-info_delivery">
+                                                <div class="Order-infoType">{% trans "Тип доставки:" %}
+                                                </div>
+                                                <div class="Order-infoContent">
+                                                    {% if order.delivery == 'D' %}
+                                                        {% trans 'доставка' %}
+                                                    {% elif order.delivery == 'A' %}
+                                                        {% trans 'экспресс доставка' %}
+                                                    {% else %}
+                                                        None
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="Order-info">
+                                                <div class="Order-infoType">{% trans "Общая стоимость:" %}
+                                                </div>
+                                                <div class="Order-infoContent"><span class="Order-price">{{ order.total }}$</span>
+                                                </div>
+                                            </div>
+                                            <div class="Order-info Order-info_delivery">
+                                                <div class="Order-infoType">{% trans "Тип оплаты" %}
+                                                </div>
+                                                <div class="Order-infoContent">
+                                                    {% if order.payment == 'C' %}
+                                                        {% trans "онлайн картой" %}
+                                                    {% elif order.payment == 'F' %}
+                                                        {% trans 'онлайн со случайного чужого счета' %}
+                                                    {% else %}
+                                                        None
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="Order-info Order-info_delivery">
+                                                <div class="Order-infoType">{% trans "Статус заказа" %}
+                                                </div>
+                                                <div class="Order-infoContent">
+                                                    {{ order.status }}
+                                                </div>
+                                            </div>
+                                            {% if order.status_payment == 'Оплата прошла успешно' %}
+                                            <div class="Order-info Order-info">
+                                                <div class="Order-infoType">{% trans "Оплата прошла:" %}
+                                                </div>
+                                                <div class="Order-infoContent">{{ order.status_payment }}
+                                                </div>
+                                            </div>
+                                            {% else %}
+                                            <div class="Order-info Order-info_error">
+                                                <div class="Order-infoType">{% trans "Оплата не прошла:" %}
+                                                </div>
+                                                <div class="Order-infoContent">{{ order.status_payment }}
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                                     {% else %}
+                                     <p>История заказов отсутствует</p>
+                    </div>
+                 {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'product/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+    <div class="Middle">
+        <div class="wrap">
+            <div class="Product">
+                <div class="ProductCard">
+                    {%  for com in goods_item %}
+                        {% for coms in com %}
+
+                    <div class="ProductCard-desc">
+                        <div class="ProductCard-header">
+                            <h2 class="ProductCard-title">{{ coms.name }}
+                            </h2>
+                            <div class="ProductCard-look">
+                                <div class="ProductCard-photo">
+                                    <img src="{% static "assets/img/content/home/bigGoods.png" %}" alt="bigGoods.png" />
+                                </div>
+                            </div>
+
+                            <div class="Tabs Tabs_default">
+                                <div class="Tabs-wrap">
+                                    <div class="Tabs-block" id="description">
+                                        <div class="table">
+                                            <table>
+                                                <tr>
+                                                    <th class="hed">{% trans "Характеристика" %}</th>
+                                                    <th class="hed">{% trans "Значение" %}</th>
+                                                </tr>
+                                            </table>
+                                            {% for product in coms.property.all %}
+                                            <table>
+
+
+                                                <tr>
+                                                    <td>{{ product.property.name }}</td>
+                                                    <td>{{product.value }}</td>
+                                                </tr>
+
+                                            </table>
+                                                {% endfor %}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="ProductCard-info">
+                            <div class="ProductCard-cost">
+                                <div class="ProductCard-price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ProductCard-cart">
+                        {% include 'comparison/remove.html' with type='product' id=coms.id %}
+
+                            <div class="ProductCard-cartElement"><a href="{% url 'product-detail' coms.id %}"><button class="btn btn_primary"type="button"><span class="btn-content"> К детальному просмотру</span></button> </a></a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

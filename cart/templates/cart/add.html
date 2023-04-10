@@ -1,0 +1,7 @@
+{% load static %}
+<form action="{% url 'cart:cart-add' id=id  %}" method="post">
+    {% csrf_token %}
+    <input class="Amount-input"  type="hidden"  name="quantity" value="1">
+    <input type="hidden" name="url_from" value="{{ request.path }}">
+    <button class="btn btn_primary" type="submit"> <img  class="" src="{% static 'assets/img/icons/card/cart_white.svg' %}" alt="cart.svg"/><span class="btn-content"> Добавить в корзину</span></button>
+</form>

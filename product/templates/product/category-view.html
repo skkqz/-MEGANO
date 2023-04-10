@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load mptt_tags %}
+{% load i18n %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Категории" %}</title>
+</head>
+<body>
+<h2>{% trans "Меню выбора категорий каталога" %}</h2>
+<ul>
+    {% recursetree categories %}
+        {% if node.active %}
+
+            <li>
+                <a href="#">{{ node }}</a>
+{#            {% if user.is_autentificated %}#}
+                <input type="hidden" name="name" value="{{ node.name }}">
+                <input type="hidden" name="history_id" value="{{ node.id }}">
+                <a href="/product/category/{{ node.id }}">{{ node.name }}</a>
+                {% if node.icon %}
+                    <img style="width: 20px; height: 20px;" src="{{ MEDIA_URL }}{{ node.icon.url }} "
+                         alt=" a photo "/>
+{#                {% endif %}#}
+{#            {% else %}#}
+{#                <a href="/product/category/{{ node.id }}">{{ node.name }}</a>#}
+{#                {% if node.icon %}#}
+{#                    <img style="width: 20px; height: 20px;" src="{{ MEDIA_URL }}{{ node.icon.url }} "#}
+{#                         alt=" a photo "/>#}
+{#                {% endif %}#}
+            {% endif %}
+                {% if not node.is_leaf_node %}
+
+                    <ul>
+                        {{ children }}
+                    </ul>
+
+                {% endif %}
+            </li>
+
+        {% endif %}
+    {% endrecursetree %}
+</ul>
+
+</body>
+</html>

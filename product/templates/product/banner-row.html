@@ -1,0 +1,32 @@
+{% load static %}
+{% load i18n %}
+
+<div class="Section">
+  <div class="wrap">
+    <div class="BannersHome">
+
+      {% for item in favorite %}
+        <a class="BannersHomeBlock" href="{% url 'catalog-view' %}?category={{ item.id }}">
+          <div class="BannersHomeBlock-row">
+            <div class="BannersHomeBlock-block">
+              <strong class="BannersHomeBlock-title">
+                  {{ item.name }}
+              </strong>
+              <div class="BannersHomeBlock-content">от&#32;
+                <span class="BannersHomeBlock-price">{{ item.min_price|floatformat:0 }} ₽</span>
+              </div>
+            </div>
+            <div class="BannersHomeBlock-block">
+              <div class="BannersHomeBlock-img">
+                <img src="{% static 'assets/img/content/home/videoca.png' %}" alt="videoca.png"/>
+              </div>
+            </div>
+          </div>
+        </a>
+      {% empty %}
+        {% trans "Извините, активных баннеров нет" %}.
+      {% endfor %}
+
+    </div>
+  </div>
+</div>

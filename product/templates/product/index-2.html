@@ -1,0 +1,37 @@
+{% extends 'product/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load mptt_tags %}
+
+{% block title %}
+  <title>{% trans "Главная страница" %}</title>
+{% endblock %}
+
+{% block content %}
+  <!-- insert slider of banners -->
+  {% include "product/banner-slider.html" %}
+
+  <div class="Middle">
+    <!-- insert row of banners -->
+    {% include "product/banner-row.html" %}
+
+    <div class="Section Section_column Section_columnLeft Section_columnDesktop">
+      <div class="wrap">
+        <!-- insert limited deals -->
+        {% include "product/limited-deals.html" %}
+
+        <!-- insert popular products -->
+        {% include "product/popular-products.html" %}
+      </div>
+    </div>
+
+
+    <div class="Section Section_column Section_columnRight">
+      <div class="wrap">
+        <!-- insert limited edition -->
+        {% include "product/limited-edition.html" %}
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

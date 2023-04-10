@@ -1,0 +1,21 @@
+---
+- name: Create database
+  become: yes
+  become_user: postgres
+  postgresql_db:
+    name: "{{ postgres_db }}"
+    encoding: UTF-8
+
+- name: Ensure we have access from the new user
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    db: "{{ postgres_db }}"
+    role: "{{ postgres_user }}"
+    privs: ALL
+    type: database
+
+- name: Add postgreuser permission for createbd
+  become: true
+  become_user: postgres
+  shell: psql -U postgres -c 'ALTER USER {{ postgres_user }} CREATEDB'
